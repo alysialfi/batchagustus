@@ -5,11 +5,13 @@
             return {
                 amount: 0,
                 isAmountGreaterThan3: false,
+                hasClickedCartButton: false,
                 price: 75
             }
         },
         methods: {
             addToCart() {
+                this.hasClickedCartButton = true
                 this.isAmountGreaterThan3 = this.amount > 3
             }
         },
@@ -31,11 +33,14 @@
             <div>
                 <div class="text-4xl font-semibold">${{ price }}</div>
                 <div class="flex justify-between w-28 items-center mt-4">
-                    <button @click="amount--" class="bg-black text-white px-4 text-2xl">-</button>
+                    <button @click="amount--" class="bg-black text-white px-4 text-2xl disabled:bg-gray-500" :disabled="amount === 0">-</button>
                     <div class="px-6 bg-gray-200 h-full">{{ amount }}</div>
                     <button @click="amount++" class="bg-black text-white px-4 text-2xl">+</button>
                 </div>
-                <div v-if="isAmountGreaterThan3" class="text-red-500 mt-1">maximum items that can be added is 3</div>
+                <div v-if="hasClickedCartButton">
+                    <div v-if="isAmountGreaterThan3" class="text-red-500 mt-1">maximum items that can be added is 3</div>
+                    <div v-else class="text-green-500 mt-1">successfully added to cart</div>
+                </div>
 
                 <div class="mt-4">SubTotal: ${{ price * amount }}</div>
                 <div class="flex gap-4 mt-10">
